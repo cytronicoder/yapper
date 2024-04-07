@@ -111,7 +111,7 @@ export default async function handler(
 
   if (req.method === "POST") {
     try {
-      const { text, question, strands } = req.body;
+      const { text, question, strands, temperature } = req.body;
 
       let input = "";
 
@@ -140,7 +140,7 @@ export default async function handler(
           },
         ],
         model: "gpt-3.5-turbo",
-        temperature: 0.7,
+        temperature: temperature,
       });
 
       res

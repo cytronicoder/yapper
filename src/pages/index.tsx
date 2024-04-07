@@ -7,6 +7,7 @@ export default function Home() {
   const [question, setQuestion] = useState<string>('');
   const [strands, setStrands] = useState<string[]>([]);
   const [text, setText] = useState<string>('');
+  const [temperature, setTemperature] = useState<number>(0.7);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [suggestionsList, setSuggestionsList] = useState<string[]>([]);
@@ -23,6 +24,10 @@ export default function Home() {
     setText(e.target.value);
   };
 
+  const handleTemperatureChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTemperature(parseFloat(e.target.value));
+  };
+
   const handleTextSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -37,14 +42,14 @@ export default function Home() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ text, question, strands }),
+      body: JSON.stringify({ text, question, strands, temperature }), // Include temperature in the request
     })
 
     const data = await response.json();
 
     setLoading(false);
 
-    // Split and trim the suggestions if they're in a single string format
+    // Split and trim the suggestions
     const suggestionsArray = data.suggestions.split(/\d+\./).slice(1).map((s: string) => s.trim());
     setSuggestionsList(suggestionsArray);
   };
@@ -55,15 +60,30 @@ export default function Home() {
 
   return (
     <main
-      className={`flex h-screen items-center justify-center p-4 ${inter.className}`}
+      className={`flex h-screen items-center justify-center ${inter.className}`}
       style={{ fontFamily: '"Inter", sans-serif' }}
     >
-      <div className="flex w-full max-w-4xl h-1/2 flex-col">
+      <div className="flex w-full h-1/2 flex-col items-center justify-center p-4 m-auto">
         <h1 className="text-3xl text-center mb-4">This is <span className="font-bold">Yapper.</span> It helps you learn, fast. 🗣️🗣️🗣️</h1>
         <p className="text-lg text-center mb-5">Enter your text below to receive suggestions on how to improve its clarity, style, and overall quality.</p>
-        <div className="flex flex-1 h-full">
+        <div className="text-center my-4">
+          <label htmlFor="temperature-range" className="block text-lg font-medium text-gray-700">
+            Adjust Output Randomness (Temperature: {temperature})
+          </label>
+          <input
+            id="temperature-range"
+            type="range"
+            min="0"
+            max="2"
+            step="0.01"
+            value={temperature}
+            onChange={handleTemperatureChange}
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+          />
+        </div>
+        <div className="flex flex-1 w-1/2 h-full">
           <div className="flex-1 flex flex-col justify-center p-5">
-            <form className="relative h-1/6 mb-5">
+            <form className="h-1/6 mb-5">
               <textarea
                 className="w-full p-4 h-full text-black bg-white rounded-lg shadow focus:outline-none focus:ring focus:ring-opacity-50 resize-none"
                 rows={10}
@@ -72,7 +92,7 @@ export default function Home() {
                 onChange={handleQuestionChange}
               ></textarea>
             </form>
-            <form className="relative h-1/4 mb-5">
+            <form className="h-1/4 mb-5">
               <textarea
                 className="w-full p-4 h-full text-black bg-white rounded-lg shadow focus:outline-none focus:ring focus:ring-opacity-50 resize-none"
                 rows={10}
