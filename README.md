@@ -1,3 +1,5 @@
+### 📂 This repository is now archived; the next iteration will be worked on as part of [Intellify Labs.](https://instagram.com/intellify.labs)
+
 # Yapper
 
 Yapper is an open-source project that allows IB students to receive feedback on their assessments with ease (and without having to email their teachers a thousand times). It uses the OpenAI API to generate responses, and it's powered by the [Next.js framework](https://nextjs.org).
