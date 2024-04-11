@@ -1,4 +1,4 @@
-### 📂 This repository is now archived; the next iteration will be worked on as part of [Intellify Labs.](https://instagram.com/intellify.labs)
+### 📂 This repository is now archived; the next iteration will be worked on as part of [Intellify Lab.](https://instagram.com/intellifylab)
 
 # Yapper
 
